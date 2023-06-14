@@ -50,11 +50,20 @@ func main() {
 		"C": "X",
 	}
 
+	// Deciding wheather to lose, win or make a draw
 	strategyMap := map[string]map[string]string{
 		"X": lose,
 		"Y": draw,
 		"Z": win,
 	}
+
+	/*
+		Algorithm:
+			   Pick a strategy from strategyMap, then apply the strategy to get the appropriate key
+			   to calculate the score. For example for a game of [A Y]
+			   strategy = draw, and the scoreMap key = A+draw[A] = AX
+
+	*/
 
 	score := 0
 	for sc.Scan() {
