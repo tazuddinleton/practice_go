@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// sum := getSum("./input.txt")
-	sum := badgePrioritySum("./groups.txt")
+	sum := badgePrioritySum("./input.txt")
 	fmt.Println("Sum: ", sum)
 }
 
@@ -55,7 +55,7 @@ func badgePrioritySum(input string) int {
 	sum := 0
 	count := 0
 
-	groups := []rune{}
+	groups := []string{}
 	for sc.Scan() {
 		if err := sc.Err(); err != nil {
 			log.Panic(err)
@@ -64,17 +64,44 @@ func badgePrioritySum(input string) int {
 		count++
 		line := sc.Text()
 		fmt.Println("Rucksack: ", line)
-		runes := []rune(line)
-		groups = append(groups, runes...)
 
+		groups = append(groups, line)
 		if count%3 == 0 {
 			fmt.Println("Group: ", count/3)
-			c, _ := getCommon(groups[0:len(groups)/2], groups[len(groups)/2:])
+			c, err := getCommon2(groups)
+
+			if err != nil {
+				panic(err)
+			}
 			sum += priority(c)
 			groups = groups[:0]
 		}
 	}
 	return sum
+}
+
+func getCommon2(group []string) (rune, error) {
+	dic := make(map[rune]bool)
+	dic2 := make(map[rune]bool)
+	for _, r := range []rune(group[0]) {
+		if _, ok := dic[r]; !ok {
+			dic[r] = true
+		}
+	}
+	for _, r := range []rune(group[1]) {
+		if _, ok := dic2[r]; !ok {
+			dic2[r] = true
+		}
+	}
+	for _, r := range []rune(group[2]) {
+		_, ok := dic[r]
+		_, ok2 := dic2[r]
+		if ok && ok2 {
+			fmt.Println("Common: ", string(r))
+			return r, nil
+		}
+	}
+	return rune(0), errors.New("not found")
 }
 
 func getCommon(comp1, comp2 []rune) (rune, error) {
