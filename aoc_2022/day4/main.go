@@ -25,7 +25,8 @@ func (r Range) contains(other Range) bool {
 }
 
 func (r Range) overlaps(other Range) bool {
-	return r.contains(other) || r.from <= other.from && other.from >= r.to
+	return r.from >= other.from && r.from <= other.to ||
+		other.from >= r.from && other.from <= r.to
 }
 
 func main() {
