@@ -37,7 +37,7 @@ func readInput(input string) {
 		if len(move) == 0 {
 			continue
 		}
-		howMany, err := strconv.Atoi(move[1])
+		count, err := strconv.Atoi(move[1])
 		if err != nil {
 			panic(err)
 		}
@@ -50,8 +50,9 @@ func readInput(input string) {
 			log.Panic(err)
 		}
 
-		fmt.Println("move", howMany, "from", from, "to", to)
-		moveCrates(stacks[:], howMany, from, to)
+		fmt.Println("move", count, "from", from, "to", to)
+		moveCratesUsing9001(stacks[:], count, from, to)
+		PrintStacks(stacks[:])
 	}
 
 	PrintStacks(stacks[:])
@@ -64,6 +65,12 @@ func moveCrates(stacks []Stack, howMany, from, to int) {
 		stacks[to-1].Push(crate)
 		i++
 	}
+}
+
+func moveCratesUsing9001(stacks []Stack, count, from, to int) {
+	crate := stacks[from-1].PopMany(count)
+	fmt.Println("moving crates: ", crate, "from", from, "to", to)
+	stacks[to-1].PushMany(crate)
 }
 
 // [T] [V]                     [W]
