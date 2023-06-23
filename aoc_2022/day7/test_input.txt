@@ -1,0 +1,7 @@
+$ cd /
+$ ls
+dir cvt
+4967 hcqbmwc.gts
+$ cd cvt
+$ ls
+1010 file.txt
