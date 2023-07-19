@@ -10,7 +10,45 @@ import (
 
 func main() {
 	root := readInput("./input.txt")
-	printTree(root, 0)
+	// need to find directories with  total size of at most 100000. then find the sum of size of those directories.
+
+	_ = calculateSize(root)
+	sum := findSize(root)
+	fmt.Println("Sum: ", sum)
+}
+
+func findSize(root *File) int {
+	sum := 0
+	for _, v := range root.Children {
+		if v.IsDir {
+			fmt.Println("found size < 100000")
+			if v.Size < 100000 {
+				sum += v.Size
+			}
+			sum += findSize(v)
+			fmt.Println("found sum: ", sum)
+		}
+	}
+	return sum
+}
+
+func calculateSize(root *File) int {
+	if root == nil {
+		return 0
+	}
+	if !root.IsDir {
+		return root.Size
+	}
+
+	sum := 0
+	for _, v := range root.Children {
+		if v.IsDir {
+			v.Size = calculateSize(v)
+		}
+		sum += v.Size
+	}
+	root.Size = sum
+	return root.Size
 }
 
 func readInput(path string) *File {
