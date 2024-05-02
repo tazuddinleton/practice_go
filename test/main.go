@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-
+	charset := "0123"
 }
 
 func problem2(result []int) []int {
@@ -49,5 +49,4 @@ func problem1() {
 		l, _ := strconv.Atoi(string(n))
 		sum += m[l]
 	}
-
 }
